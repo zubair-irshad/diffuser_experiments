@@ -67,7 +67,7 @@ if edit_type == "original":
     #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
     # ).resize((resolution, resolution))
 
-    data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.png"
+    data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.jpg"
     image = Image.open(data_path).resize((resolution, resolution))
     edit_instruction = "give him a moustache"
 
