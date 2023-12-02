@@ -4,6 +4,11 @@ import os
 
 save_dir = "latent-consistency/lcm-lora-sdxl"
 
+# create save directory relative to current working directory
+
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
+
 pipe = DiffusionPipeline.from_pretrained(
     "stabilityai/stable-diffusion-xl-base-1.0",
     variant="fp16",
