@@ -67,12 +67,12 @@ pipe = StableDiffusionXLInstructPix2PixPipeline.from_pretrained(
 
 edited_image = pipe(
     prompt=edit_instruction,
-    image=image,
-    height=resolution,
-    width=resolution,
-    guidance_scale=3.0,
-    image_guidance_scale=1.5,
-    num_inference_steps=30,
+    image=image
+    # height=resolution,
+    # width=resolution,
+    # guidance_scale=3.0,
+    # image_guidance_scale=1.5,
+    # num_inference_steps=30,
 ).images[0]
 
 # save image
