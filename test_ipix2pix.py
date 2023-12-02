@@ -136,7 +136,7 @@ elif edit_type == "lcm-lora":
         image=image,
         # height=resolution,
         # width=resolution,
-        guidance_scale=2,
+        guidance_scale=1,
         image_guidance_scale=1.5,
         num_inference_steps=4,
     ).images[0]
