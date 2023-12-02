@@ -27,4 +27,4 @@ image = pipe(
 # save image
 from PIL import Image
 
-Image.fromarray(image).save(os.path.join(save_dir, "self-portrait-oil-painting.png"))
+image.save(os.path.join(save_dir, "self-portrait-oil-painting.png"))
