@@ -69,6 +69,10 @@ resolution = 768
 data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.jpg"
 image = Image.open(data_path).resize((resolution, resolution))
 
+# measure time of inference
+
+import time
+
 if edit_type == "original":
     # image = load_image(
     #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
@@ -86,6 +90,7 @@ if edit_type == "original":
     #     "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
     # ).to("cuda")
 
+    start_time = time.time()
     edited_image = pipe(
         prompt=edit_instruction,
         image=image
@@ -96,6 +101,8 @@ if edit_type == "original":
         # num_inference_steps=30,
     ).images[0]
 
+    print("time taken for inference original: ", time.time() - start_time)
+
     # save image
     from PIL import Image
 
@@ -103,6 +110,7 @@ if edit_type == "original":
 
     edited_image.save(os.path.join(save_dir, "face_edited_original.png"))
 # edited_image.save("edited_image.png")
+
 
 elif edit_type == "lcm-lora":
     resolution = 768
@@ -131,6 +139,7 @@ elif edit_type == "lcm-lora":
     #     num_inference_steps=30,
     # ).images[0]
 
+    start_time = time.time()
     edited_image = pipe(
         prompt=edit_instruction,
         image=image,
@@ -140,6 +149,8 @@ elif edit_type == "lcm-lora":
         image_guidance_scale=1.5,
         num_inference_steps=4,
     ).images[0]
+
+    print("time taken for inference lcm-lora: ", time.time() - start_time)
 
     image.save(os.path.join(save_dir, "face_original.png"))
 
