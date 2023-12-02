@@ -57,14 +57,17 @@ if not os.path.exists(save_dir):
 
 # original instructpix2pix
 
-edit_type = "lcm-lora"
+edit_type = "original"
 
 if edit_type == "original":
     resolution = 768
-    image = load_image(
-        "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
-    ).resize((resolution, resolution))
-    edit_instruction = "make the mountains snowy"
+    # image = load_image(
+    #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
+    # ).resize((resolution, resolution))
+
+    data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_0004.png"
+    image = Image.open("mountain.png").resize((resolution, resolution))
+    edit_instruction = "give him a moustache"
 
     pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
         "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
