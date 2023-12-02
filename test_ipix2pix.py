@@ -67,8 +67,8 @@ if edit_type == "original":
     #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
     # ).resize((resolution, resolution))
 
-    data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_0004.png"
-    image = Image.open("mountain.png").resize((resolution, resolution))
+    data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.png"
+    image = Image.open(data_path).resize((resolution, resolution))
     edit_instruction = "give him a moustache"
 
     pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
