@@ -57,6 +57,8 @@ if not os.path.exists(save_dir):
 
 # original instructpix2pix
 
+from PIL import Image
+
 edit_type = "original"
 
 if edit_type == "original":
@@ -90,9 +92,9 @@ if edit_type == "original":
     # save image
     from PIL import Image
 
-    image.save(os.path.join(save_dir, "original_image.png"))
+    image.save(os.path.join(save_dir, "face_original.png"))
 
-    edited_image.save(os.path.join(save_dir, "edited_image_original.png"))
+    edited_image.save(os.path.join(save_dir, "face_edited_original.png"))
 # edited_image.save("edited_image.png")
 
 elif edit_type == "lcm-lora":
