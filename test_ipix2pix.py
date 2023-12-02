@@ -59,10 +59,17 @@ if not os.path.exists(save_dir):
 
 from PIL import Image
 
-edit_type = "original"
+edit_type = "lcm-lora"
+
+resolution = 768
+# image = load_image(
+#     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
+# ).resize((resolution, resolution))
+
+data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.jpg"
+image = Image.open(data_path).resize((resolution, resolution))
 
 if edit_type == "original":
-    resolution = 768
     # image = load_image(
     #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
     # ).resize((resolution, resolution))
@@ -99,10 +106,10 @@ if edit_type == "original":
 
 elif edit_type == "lcm-lora":
     resolution = 768
-    image = load_image(
-        "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
-    ).resize((resolution, resolution))
-    edit_instruction = "Turn sky into a cloudy one"
+    # image = load_image(
+    #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
+    # ).resize((resolution, resolution))
+    edit_instruction = "give him a moustache"
 
     pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
         "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
@@ -134,9 +141,9 @@ elif edit_type == "lcm-lora":
         num_inference_steps=4,
     ).images[0]
 
-    image.save(os.path.join(save_dir, "original_image.png"))
+    image.save(os.path.join(save_dir, "face_original.png"))
 
-    edited_image.save(os.path.join(save_dir, "edited_image_lcm-lora.png"))
+    edited_image.save(os.path.join(save_dir, "face_edited_lcm-lora.png"))
 
 # LCM_lora instructpix2pix
 # resolution = 768
