@@ -3,6 +3,7 @@ from diffusers import (
     AutoPipelineForImage2Image,
     LCMScheduler,
     StableDiffusionXLInstructPix2PixPipeline,
+    StableDiffusionInstructPix2PixPipeline,
 )
 from diffusers.utils import make_image_grid, load_image
 import os
@@ -61,9 +62,13 @@ image = load_image(
 ).resize((resolution, resolution))
 edit_instruction = "make the mountains snowy"
 
-pipe = StableDiffusionXLInstructPix2PixPipeline.from_pretrained(
+pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
     "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
 ).to("cuda")
+
+# pipe = StableDiffusionXLInstructPix2PixPipeline.from_pretrained(
+#     "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
+# ).to("cuda")
 
 edited_image = pipe(
     prompt=edit_instruction,
