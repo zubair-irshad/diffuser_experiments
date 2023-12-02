@@ -56,38 +56,82 @@ if not os.path.exists(save_dir):
 # image.save("./image.png")
 
 # original instructpix2pix
-resolution = 768
-image = load_image(
-    "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
-).resize((resolution, resolution))
-edit_instruction = "make the mountains snowy"
 
-pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
-    "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
-).to("cuda")
+edit_type = "lcm-lora"
 
-# pipe = StableDiffusionXLInstructPix2PixPipeline.from_pretrained(
-#     "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
-# ).to("cuda")
+if edit_type == "original":
+    resolution = 768
+    image = load_image(
+        "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
+    ).resize((resolution, resolution))
+    edit_instruction = "make the mountains snowy"
 
-edited_image = pipe(
-    prompt=edit_instruction,
-    image=image
-    # height=resolution,
-    # width=resolution,
-    # guidance_scale=3.0,
-    # image_guidance_scale=1.5,
-    # num_inference_steps=30,
-).images[0]
+    pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
+        "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
+    ).to("cuda")
 
-# save image
-from PIL import Image
+    # pipe = StableDiffusionXLInstructPix2PixPipeline.from_pretrained(
+    #     "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
+    # ).to("cuda")
 
-image.save(os.path.join(save_dir, "original_image.png"))
+    edited_image = pipe(
+        prompt=edit_instruction,
+        image=image
+        # height=resolution,
+        # width=resolution,
+        # guidance_scale=3.0,
+        # image_guidance_scale=1.5,
+        # num_inference_steps=30,
+    ).images[0]
 
-edited_image.save(os.path.join(save_dir, "edited_image_original.png"))
+    # save image
+    from PIL import Image
+
+    image.save(os.path.join(save_dir, "original_image.png"))
+
+    edited_image.save(os.path.join(save_dir, "edited_image_original.png"))
 # edited_image.save("edited_image.png")
 
+elif edit_type == "lcm-lora":
+    resolution = 768
+    image = load_image(
+        "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
+    ).resize((resolution, resolution))
+    edit_instruction = "Turn sky into a cloudy one"
+
+    pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
+        "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
+    ).to("cuda")
+
+    # set scheduler
+    pipe.scheduler = LCMScheduler.from_config(pipe.scheduler.config)
+
+    # load LCM-LoRA
+    pipe.load_lora_weights("latent-consistency/lcm-lora-sdv1-5")
+
+    # edited_image = pipe(
+    #     prompt=edit_instruction,
+    #     image=image,
+    #     height=resolution,
+    #     width=resolution,
+    #     guidance_scale=3.0,
+    #     image_guidance_scale=1.5,
+    #     num_inference_steps=30,
+    # ).images[0]
+
+    edited_image = pipe(
+        prompt=edit_instruction,
+        image=image,
+        # height=resolution,
+        # width=resolution,
+        guidance_scale=7.5,
+        image_guidance_scale=1.5,
+        num_inference_steps=4,
+    ).images[0]
+
+    image.save(os.path.join(save_dir, "original_image.png"))
+
+    edited_image.save(os.path.join(save_dir, "edited_image_lcm-lora.png"))
 
 # LCM_lora instructpix2pix
 # resolution = 768
