@@ -2,7 +2,7 @@ import torch
 from diffusers import DiffusionPipeline, LCMScheduler
 import os
 
-save_dir = "latent-consistency/lcm-lora-sdxl"
+save_dir = "latent-consistency_output/lcm-lora-sdxl"
 
 # create save directory relative to current working directory
 
