@@ -221,11 +221,11 @@ elif edit_type == "lcm-lora-sdxl":
         "diffusers/sdxl-instructpix2pix-768", torch_dtype=torch.float16
     ).to("cuda")
 
+    pipe.load_lora_weights("latent-consistency/lcm-lora-sdxl")
     # set scheduler
     pipe.scheduler = LCMScheduler.from_config(pipe.scheduler.config)
 
     # load LCM-LoRA
-    pipe.load_lora_weights("latent-consistency/lcm-lora-sdxl")
 
     # edited_image = pipe(
     #     prompt=edit_instruction,
