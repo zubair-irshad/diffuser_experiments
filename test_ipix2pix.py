@@ -88,12 +88,12 @@ if edit_type == "original":
     #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
     # ).resize((resolution, resolution))
 
-    save_dir_face = os.path.join(save_dir, "clown_out")
+    save_dir_face = os.path.join(save_dir, "elf_out")
     os.makedirs(save_dir_face, exist_ok=True)
 
     # data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.jpg"
     # image = Image.open(data_path).resize((resolution, resolution))
-    edit_instruction = "turn him into a clown"
+    edit_instruction = "turn him into a tolkein elf"
 
     pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
         "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
@@ -150,9 +150,9 @@ elif edit_type == "lcm-lora":
     # image = load_image(
     #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
     # ).resize((resolution, resolution))
-    edit_instruction = "turn him into a clown"
+    edit_instruction = "turn him into a tolkein elf"
 
-    save_dir_face = os.path.join(save_dir, "clown_lora")
+    save_dir_face = os.path.join(save_dir, "elf_lora")
     os.makedirs(save_dir_face, exist_ok=True)
 
     pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
