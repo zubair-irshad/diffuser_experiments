@@ -60,7 +60,7 @@ if not os.path.exists(save_dir):
 from PIL import Image
 
 # edit_type = "original"
-edit_type = "lcm-lora"
+edit_type = "lcm-lora-sdxl"
 
 resolution = 768
 # image = load_image(
@@ -164,6 +164,64 @@ elif edit_type == "lcm-lora":
 
     # load LCM-LoRA
     pipe.load_lora_weights("latent-consistency/lcm-lora-sdv1-5")
+
+    # edited_image = pipe(
+    #     prompt=edit_instruction,
+    #     image=image,
+    #     height=resolution,
+    #     width=resolution,
+    #     guidance_scale=3.0,
+    #     image_guidance_scale=1.5,
+    #     num_inference_steps=30,
+    # ).images[0]
+
+    start_time = time.time()
+
+    for i, image in enumerate(images):
+        edited_image = pipe(
+            prompt=edit_instruction,
+            image=image,
+            # height=resolution,
+            # width=resolution,
+            guidance_scale=1,
+            image_guidance_scale=1.5,
+            num_inference_steps=6,
+        ).images[0]
+
+        end_time = time.time()
+        all_times.append(end_time - start_time)
+        print("time per image: ", end_time - start_time)
+        start_time = time.time()
+
+        # edited_image.save(os.path.join(save_dir, "face_edited_original.png"))
+
+        # save each image in the folder with the different name
+
+        edited_image.save(
+            os.path.join(save_dir_face, "face_edited_original_" + str(i) + ".png")
+        )
+
+    print("mean time taken for inference: ", sum(all_times) / len(all_times))
+
+elif edit_type == "lcm-lora-sdxl":
+    resolution = 768
+    # image = load_image(
+    #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
+    # ).resize((resolution, resolution))
+    edit_instruction = "turn him into a tolkein elf"
+
+    save_dir_face = os.path.join(save_dir, "elf_lora_sdxl")
+    os.makedirs(save_dir_face, exist_ok=True)
+
+    pipe = StableDiffusionXLInstructPix2PixPipeline.from_pretrained(
+        "diffusers/sdxl-instructpix2pix-768", torch_dtype=torch.float16
+    ).to("cuda")
+
+    # set scheduler
+    pipe.scheduler = LCMScheduler.from_config(pipe.scheduler.config)
+
+    # load LCM-LoRA
+    pipe.load_lora_weights("latent-consistency/lcm-lora-sdxl")
 
     # edited_image = pipe(
     #     prompt=edit_instruction,
