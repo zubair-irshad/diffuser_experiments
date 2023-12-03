@@ -87,7 +87,7 @@ if edit_type == "original":
     #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
     # ).resize((resolution, resolution))
 
-    save_dir_face = os.path.join(save_dir, "face_out")
+    save_dir_face = os.path.join(save_dir, "clown_out")
     os.makedirs(save_dir_face, exist_ok=True)
 
     # data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.jpg"
@@ -151,7 +151,7 @@ elif edit_type == "lcm-lora":
     # ).resize((resolution, resolution))
     edit_instruction = "turn him into a clown"
 
-    save_dir_face = os.path.join(save_dir, "face_out_lora")
+    save_dir_face = os.path.join(save_dir, "clown_lora")
     os.makedirs(save_dir_face, exist_ok=True)
 
     pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
