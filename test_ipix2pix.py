@@ -213,6 +213,10 @@ elif edit_type == "lcm-lora-sdxl":
     save_dir_face = os.path.join(save_dir, "elf_lora_sdxl")
     os.makedirs(save_dir_face, exist_ok=True)
 
+    # pipe = StableDiffusionXLInstructPix2PixPipeline.from_pretrained(
+    #     "diffusers/sdxl-instructpix2pix-768", torch_dtype=torch.float16
+    # ).to("cuda")
+
     pipe = StableDiffusionXLInstructPix2PixPipeline.from_pretrained(
         "diffusers/sdxl-instructpix2pix-768", torch_dtype=torch.float16
     ).to("cuda")
