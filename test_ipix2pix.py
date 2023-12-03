@@ -59,7 +59,7 @@ if not os.path.exists(save_dir):
 
 from PIL import Image
 
-edit_type = "original"
+edit_type = "lcm-lora"
 
 resolution = 768
 # image = load_image(
@@ -151,7 +151,7 @@ elif edit_type == "lcm-lora":
     # ).resize((resolution, resolution))
     edit_instruction = "make him batman"
 
-    save_dir_face = os.path.join(save_dir, "face_out")
+    save_dir_face = os.path.join(save_dir, "face_out_lora")
     os.makedirs(save_dir_face, exist_ok=True)
 
     pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
