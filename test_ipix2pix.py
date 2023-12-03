@@ -59,8 +59,8 @@ if not os.path.exists(save_dir):
 
 from PIL import Image
 
-edit_type = "original"
-# edit_type = "lcm-lora"
+# edit_type = "original"
+edit_type = "lcm-lora"
 
 resolution = 768
 # image = load_image(
