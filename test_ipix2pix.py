@@ -109,9 +109,10 @@ if edit_type == "original":
 
         end_time = time.time()
         all_times.append(end_time - start_time)
+        print("time per image: ", end_time - start_time)
         start_time = time.time()
 
-        print("time per image: ", end_time - start_time)
+        # print("time per image: ", end_time - start_time)
 
         # edited_image.save(os.path.join(save_dir, "face_edited_original.png"))
 
@@ -188,9 +189,8 @@ elif edit_type == "lcm-lora":
 
         end_time = time.time()
         all_times.append(end_time - start_time)
-        start_time = time.time()
-
         print("time per image: ", end_time - start_time)
+        start_time = time.time()
 
         # edited_image.save(os.path.join(save_dir, "face_edited_original.png"))
 
