@@ -88,7 +88,7 @@ if edit_type == "original":
     # ).resize((resolution, resolution))
 
     save_dir_face = os.path.join(save_dir, "face_out")
-    os.makedirs(save_dir_face)
+    os.makedirs(save_dir_face, exist_ok=True)
 
     # data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.jpg"
     # image = Image.open(data_path).resize((resolution, resolution))
@@ -152,7 +152,7 @@ elif edit_type == "lcm-lora":
     edit_instruction = "make him batman"
 
     save_dir_face = os.path.join(save_dir, "face_out")
-    os.makedirs(save_dir_face)
+    os.makedirs(save_dir_face, exist_ok=True)
 
     pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
         "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
