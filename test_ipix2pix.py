@@ -66,21 +66,33 @@ resolution = 768
 #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
 # ).resize((resolution, resolution))
 
-data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.jpg"
-image = Image.open(data_path).resize((resolution, resolution))
+# data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.jpg"
+# image = Image.open(data_path).resize((resolution, resolution))
 
+data_folder = "/home/ubuntu/zubair/diffuser_experiments/face"
+
+images_files = os.listdir(data_folder)
+
+images = [
+    Image.open(os.path.join(data_folder, file)).resize((resolution, resolution))
+    for file in images_files
+]
 # measure time of inference
 
 import time
 
+all_times = []
 if edit_type == "original":
     # image = load_image(
     #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
     # ).resize((resolution, resolution))
 
-    data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.jpg"
-    image = Image.open(data_path).resize((resolution, resolution))
-    edit_instruction = "give him a moustache"
+    save_dir_face = os.path.join(save_dir, "face_out")
+    os.makedirs(save_dir_face)
+
+    # data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.jpg"
+    # image = Image.open(data_path).resize((resolution, resolution))
+    edit_instruction = "make him batman"
 
     pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
         "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
@@ -91,15 +103,34 @@ if edit_type == "original":
     # ).to("cuda")
 
     start_time = time.time()
-    edited_image = pipe(
-        prompt=edit_instruction,
-        image=image
-        # height=resolution,
-        # width=resolution,
-        # guidance_scale=3.0,
-        # image_guidance_scale=1.5,
-        # num_inference_steps=30,
-    ).images[0]
+
+    for i, image in enumerate(images):
+        edited_image = pipe(prompt=edit_instruction, image=image).images[0]
+
+        end_time = time.time()
+        all_times.append(end_time - start_time)
+        start_time = time.time()
+
+        print("time per image: ", end_time - start_time)
+
+        # edited_image.save(os.path.join(save_dir, "face_edited_original.png"))
+
+        # save each image in the folder with the different name
+
+        edited_image.save(
+            os.path.join(save_dir_face, "face_edited_original_" + str(i) + ".png")
+        )
+
+    print("mean time taken for inference: ", sum(all_times) / len(all_times))
+    # edited_image = pipe(
+    #     prompt=edit_instruction,
+    #     image=image
+    #     # height=resolution,
+    #     # width=resolution,
+    #     # guidance_scale=3.0,
+    #     # image_guidance_scale=1.5,
+    #     # num_inference_steps=30,
+    # ).images[0]
 
     print("time taken for inference original: ", time.time() - start_time)
 
@@ -117,7 +148,10 @@ elif edit_type == "lcm-lora":
     # image = load_image(
     #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
     # ).resize((resolution, resolution))
-    edit_instruction = "give him a moustache"
+    edit_instruction = "make him batman"
+
+    save_dir_face = os.path.join(save_dir, "face_out")
+    os.makedirs(save_dir_face)
 
     pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
         "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
@@ -140,21 +174,50 @@ elif edit_type == "lcm-lora":
     # ).images[0]
 
     start_time = time.time()
-    edited_image = pipe(
-        prompt=edit_instruction,
-        image=image,
-        # height=resolution,
-        # width=resolution,
-        guidance_scale=1,
-        image_guidance_scale=1.5,
-        num_inference_steps=4,
-    ).images[0]
 
-    print("time taken for inference lcm-lora: ", time.time() - start_time)
+    for i, image in enumerate(images):
+        edited_image = pipe(
+            prompt=edit_instruction,
+            image=image,
+            # height=resolution,
+            # width=resolution,
+            guidance_scale=1,
+            image_guidance_scale=1.5,
+            num_inference_steps=4,
+        ).images[0]
 
-    image.save(os.path.join(save_dir, "face_original.png"))
+        end_time = time.time()
+        all_times.append(end_time - start_time)
+        start_time = time.time()
 
-    edited_image.save(os.path.join(save_dir, "face_edited_lcm-lora.png"))
+        print("time per image: ", end_time - start_time)
+
+        # edited_image.save(os.path.join(save_dir, "face_edited_original.png"))
+
+        # save each image in the folder with the different name
+
+        edited_image.save(
+            os.path.join(save_dir_face, "face_edited_original_" + str(i) + ".png")
+        )
+
+    print("mean time taken for inference: ", sum(all_times) / len(all_times))
+
+    # start_time = time.time()
+    # edited_image = pipe(
+    #     prompt=edit_instruction,
+    #     image=image,
+    #     # height=resolution,
+    #     # width=resolution,
+    #     guidance_scale=1,
+    #     image_guidance_scale=1.5,
+    #     num_inference_steps=4,
+    # ).images[0]
+
+    # print("time taken for inference lcm-lora: ", time.time() - start_time)
+
+    # image.save(os.path.join(save_dir, "face_original.png"))
+
+    # edited_image.save(os.path.join(save_dir, "face_edited_lcm-lora.png"))
 
 # LCM_lora instructpix2pix
 # resolution = 768
