@@ -30,11 +30,25 @@ generator = torch.manual_seed(42)
 
 start_time = time.time()
 
-image = pipe(
-    prompt=prompt, num_inference_steps=4, generator=generator, guidance_scale=1.0
-).images[0]
+all_times = []
+for i in range(10):
+    image = pipe(
+        prompt=prompt, num_inference_steps=1, generator=generator, guidance_scale=1.0
+    ).images[0]
 
-print("time taken for inference original: ", time.time() - start_time)
+    end_time = time.time()
+    all_times.append(end_time - start_time)
+    start_time = time.time()
+
+    print("end time: ", end_time)
+
+
+print("mean time taken for inference: ", sum(all_times) / len(all_times))
+# image = pipe(
+#     prompt=prompt, num_inference_steps=4, generator=generator, guidance_scale=1.0
+# ).images[0]
+
+# print("time taken for inference original: ", time.time() - start_time)
 
 
 # save image
