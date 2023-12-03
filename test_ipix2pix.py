@@ -92,7 +92,7 @@ if edit_type == "original":
 
     # data_path = "/home/ubuntu/zubair/diffuser_experiments/frame_00040.jpg"
     # image = Image.open(data_path).resize((resolution, resolution))
-    edit_instruction = "make him batman"
+    edit_instruction = "turn him into a clown"
 
     pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(
         "timbrooks/instruct-pix2pix", torch_dtype=torch.float16
@@ -149,7 +149,7 @@ elif edit_type == "lcm-lora":
     # image = load_image(
     #     "https://hf.co/datasets/diffusers/diffusers-images-docs/resolve/main/mountain.png"
     # ).resize((resolution, resolution))
-    edit_instruction = "make him batman"
+    edit_instruction = "turn him into a clown"
 
     save_dir_face = os.path.join(save_dir, "face_out_lora")
     os.makedirs(save_dir_face, exist_ok=True)
@@ -182,7 +182,7 @@ elif edit_type == "lcm-lora":
             image=image,
             # height=resolution,
             # width=resolution,
-            guidance_scale=1.5,
+            guidance_scale=1,
             image_guidance_scale=1.5,
             num_inference_steps=6,
         ).images[0]
