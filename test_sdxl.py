@@ -1,6 +1,7 @@
 import torch
 from diffusers import DiffusionPipeline, LCMScheduler
 import os
+import time
 
 save_dir = "latent-consistency_output/lcm-lora-sdxl"
 
@@ -21,15 +22,22 @@ pipe.scheduler = LCMScheduler.from_config(pipe.scheduler.config)
 # load LCM-LoRA
 pipe.load_lora_weights("latent-consistency/lcm-lora-sdxl")
 
-prompt = "Self-portrait oil painting, a beautiful cyborg with golden hair, 8k"
+# prompt = "Self-portrait oil painting, a beautiful cyborg with golden hair, 8k"
+
+prompt = "close-up photography of old man standing in the rain at night, in a street lit by lamps, leica 35mm summilux"
 
 generator = torch.manual_seed(42)
+
+start_time = time.time()
+
 image = pipe(
     prompt=prompt, num_inference_steps=4, generator=generator, guidance_scale=1.0
 ).images[0]
+
+print("time taken for inference original: ", time.time() - start_time)
 
 
 # save image
 from PIL import Image
 
-image.save(os.path.join(save_dir, "self-portrait-oil-painting.png"))
+image.save(os.path.join(save_dir, "old_man.png"))
