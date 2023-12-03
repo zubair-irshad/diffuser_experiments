@@ -182,9 +182,9 @@ elif edit_type == "lcm-lora":
             image=image,
             # height=resolution,
             # width=resolution,
-            guidance_scale=1,
+            guidance_scale=1.5,
             image_guidance_scale=1.5,
-            num_inference_steps=4,
+            num_inference_steps=6,
         ).images[0]
 
         end_time = time.time()
