@@ -7,6 +7,7 @@ from diffusers import (
 )
 from diffusers.utils import make_image_grid, load_image
 import os
+import numpy as np
 
 save_dir = "latent-consistency_output/instructpix2pix"
 
@@ -240,6 +241,7 @@ elif edit_type == "lcm-lora-sdxl":
     start_time = time.time()
 
     for i, image in enumerate(images):
+        print("image: ", np.array(image).shape)
         edited_image = pipe(
             prompt=edit_instruction,
             image=image,
